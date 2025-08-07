@@ -1,0 +1,74 @@
+#!/usr/bin/env pybricks-micropython
+
+from pybricks.hubs import EV3Brick
+from pybricks.ev3devices import (Motor, ColorSensor, TouchSensor)
+from pybricks.parameters import Port, Stop, Direction, Button, Color
+from pybricks.tools import wait, StopWatch, DataLog
+from pybricks.messaging import BluetoothMailboxClient, TextMailbox
+
+
+#The Sorter uses multiple Sensors along the ConveyorBelt, it reads and sends its signals to the NetworkHandler
+#Further it includes the Elevator/Transporter and sends signals of its current state
+
+
+def sendLift():
+    liftMotor.run_angle(180,1100)
+    liftMotor.stop()
+    
+def waitForReturn():
+    liftMotor.run_angle(180,-1100)
+    liftMotor.stop()
+    
+def sortOut(sorterMotor):
+  sorterMotor.run_angle(160,-90)
+
+def returnPosition(sorterMotor):
+    sorterMotor.run_angle(160,90)
+    
+
+# initializing Variables 
+ev3 = EV3Brick()
+
+sorterMotor = Motor(Port.B)
+sorterColorSensor = ColorSensor(Port.S3)
+colorToBeFiltered = Color.BLUE
+
+liftcolorSensor = ColorSensor(Port.S2)
+liftMotor = Motor(Port.A)
+liftTouchSensor = TouchSensor(Port.S1)
+
+#Connnecting to Server
+client = BluetoothMailboxClient()
+mbox = TextMailbox('SorterManager',client)
+client.connect('ev3dev')
+
+ev3.speaker.say("Sorter connected")  
+
+# Initialize Motors 
+
+liftMotor.run_time(150,1000)
+#resetting Position
+while liftTouchSensor.pressed() == False:
+    liftMotor.run(-50)
+    
+liftMotor.reset_angle(0)
+
+mbox.send("Initialisation complete")
+
+
+while True:
+    
+    # Needs refinement to accomodate for multiple blocks 
+    if(sorterColorSensor.color() == colorToBeFiltered):
+        sortOut(sorterMotor)
+        wait(1500)
+        returnPosition(sorterMotor)     
+     
+        
+    if(liftcolorSensor.color() != Color.BLACK):
+        wait(500)
+        mbox.send("Lift transporting")
+        sendLift()
+        waitForReturn()
+        mbox.send("Lift ready")
+        

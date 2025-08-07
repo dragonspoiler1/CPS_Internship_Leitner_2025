@@ -1,0 +1,41 @@
+#!/usr/bin/env pybricks-micropython
+from pybricks.hubs import EV3Brick
+
+from pybricks.ev3devices import Motor
+from pybricks.parameters import Port
+
+from pybricks.messaging import BluetoothMailboxClient, TextMailbox
+
+#This Section intends the Conveyor to be controlled by a single EV3 Brick
+#Might get changed later to not waste additional ressources current limiting factor is cable length
+
+ev3 = EV3Brick()
+motorA = Motor(Port.A)
+motorB = Motor(Port.B)
+
+#Connnecting to Server
+client = BluetoothMailboxClient()
+mbox = TextMailbox('ConveyorManager',client)
+client.connect('ev3dev')
+
+ev3.speaker.say("Conveyor connected")  
+
+
+mbox.wait()
+
+while True:
+        
+    if (mbox.read() == "Start Conveyor"):
+        motorA.run(160)
+        motorB.run(160)
+        mbox.send("Motors activated")
+        
+    if (mbox.read() == "Stop Conveyor"):
+        motorA.hold()
+        motorB.hold()
+        mbox.send("Motors stopped")    
+            
+box.wait()    
+
+    
+

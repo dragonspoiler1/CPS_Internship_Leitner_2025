@@ -1,0 +1,65 @@
+#!/usr/bin/env pybricks-micropython
+from pybricks.hubs import EV3Brick
+from pybricks.messaging import *
+from pybricks.tools import wait, StopWatch, DataLog
+
+
+
+#This will be the Most important Actor. This Handler gathers Information and sends
+#commands to other Bricks/Clients that react on certain messages. 
+#Mailboxes will be used to send and receive individual Data/Informations
+
+#Setup of the Server
+
+networkBrick = EV3Brick()
+server = BluetoothMailboxServer()
+CONNECTIONS = 3
+
+# Mailboxes
+
+conveyorManager = TextMailbox('ConveyorManager',server)
+sorterManager = TextMailbox('SorterManager',server)
+craneManager = TextMailbox('CraneManager',server)
+
+
+# Initializing Connections
+networkBrick.speaker.beep()
+networkBrick.screen.print('waiting for connections...')
+
+server.wait_for_connection(CONNECTIONS)
+networkBrick.screen.print('All 3 connected!')
+
+
+# Main Part of the Programm where we will use the ManagerMailboxes to make the Construction react based on
+# read Sensor inputs
+
+# Wait for Initialisation
+
+
+networkBrick.screen.print('Initialisation complete')
+    
+conveyorManager.send("Start Conveyor")
+networkBrick.screen.print('Start Conveyor')
+
+while True:
+    # Checks the Lift State to Halt the Conveyor while transporting, then continues
+    if (sorterManager.read() == "Lift transporting"):
+        conveyorManager.send("Stop Conveyor")
+        sorterManager.wait()
+        conveyorManager.send("Start Conveyor")
+        
+        
+        # Operate Crane
+        wait(300)
+        craneManager.send("Brick arrived")
+    wait(100)
+        
+        
+        
+
+        
+
+
+
+
+
