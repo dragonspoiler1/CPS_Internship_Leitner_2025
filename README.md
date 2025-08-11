@@ -16,6 +16,8 @@ Further Work on the Project of my Predecessor as seen at https://github.com/Flo1
 
 # Milestones and Completion
 1.) Find a Way to let Bricks communicate with each other - Done (4.8)
+2.) Setup all the Programms 
+3.) Adjust Model
 
 
 
@@ -44,10 +46,16 @@ Further Work on the Project of my Predecessor as seen at https://github.com/Flo1
   And then proceed
 
   With all that in Mind we can create complex Programs that can react to real life changes without even needing a wired connection.
+  Further Documentation of the code will be commented in the Files 
+
+  # Adjustmendts that were made:
+  Changed the Color Sensor infront of the ELevator to a Ultrasonic Sensor that can Measure the Distance. This was made due to errors that can occure with color detextion and lightning.
+  The Ultrasonic Sensor should give better results.
+
+  Also Added a Touch Sensor at the Bottom of the Elevator to initialize the Motors and make sure to give a clean reset every time the Programm is started. Sets a Baseline (Note: could also function on a code        Basis if the Sensor Slot is needed via the run_until_stalled() method    )
+
 
   
-  Problems: 
-  Color Sensor that is put infront of the Elevator sometimes detects the Conveyor Belt as Green instead of Black which messes with the Activtion of it
       
 
 
