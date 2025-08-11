@@ -1,8 +1,10 @@
 #!/usr/bin/env pybricks-micropython
 from pybricks.hubs import EV3Brick
 
-from pybricks.ev3devices import Motor
+from pybricks.ev3devices import *
 from pybricks.parameters import Port
+from pybricks.tools import wait
+
 
 from pybricks.messaging import BluetoothMailboxClient, TextMailbox
 
@@ -10,32 +12,8 @@ from pybricks.messaging import BluetoothMailboxClient, TextMailbox
 #Might get changed later to not waste additional ressources current limiting factor is cable length
 
 ev3 = EV3Brick()
-motorA = Motor(Port.A)
-motorB = Motor(Port.B)
-
-#Connnecting to Server
-client = BluetoothMailboxClient()
-mbox = TextMailbox('ConveyorManager',client)
-client.connect('ev3dev')
-
-ev3.speaker.say("Conveyor connected")  
-
-
-mbox.wait()
+ultraS = UltrasonicSensor(Port.S2)
 
 while True:
-        
-    if (mbox.read() == "Start Conveyor"):
-        motorA.run(160)
-        motorB.run(160)
-        mbox.send("Motors activated")
-        
-    if (mbox.read() == "Stop Conveyor"):
-        motorA.hold()
-        motorB.hold()
-        mbox.send("Motors stopped")    
-            
-box.wait()    
-
-    
-
+    print(ultraS.distance())
+    wait(100)

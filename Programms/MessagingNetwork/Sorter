@@ -1,21 +1,21 @@
 #!/usr/bin/env pybricks-micropython
 
 from pybricks.hubs import EV3Brick
-from pybricks.ev3devices import (Motor, ColorSensor, TouchSensor)
+from pybricks.ev3devices import (Motor, ColorSensor, TouchSensor, UltrasonicSensor)
 from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.messaging import BluetoothMailboxClient, TextMailbox
+from utime import ticks_ms, ticks_diff
 
 
 #The Sorter uses multiple Sensors along the ConveyorBelt, it reads and sends its signals to the NetworkHandler
 #Further it includes the Elevator/Transporter and sends signals of its current state
 
-
 def sendLift():
     liftMotor.run_angle(180,1100)
     liftMotor.stop()
     
-def waitForReturn():
+def returnLift():
     liftMotor.run_angle(180,-1100)
     liftMotor.stop()
     
@@ -25,6 +25,15 @@ def sortOut(sorterMotor):
 def returnPosition(sorterMotor):
     sorterMotor.run_angle(160,90)
     
+def initialiseMotors():
+    liftMotor.run_time(150,1000)
+
+    while liftTouchSensor.pressed() == False:
+        liftMotor.run(-50)
+    
+    liftMotor.reset_angle(0)
+
+    
 
 # initializing Variables 
 ev3 = EV3Brick()
@@ -33,7 +42,7 @@ sorterMotor = Motor(Port.B)
 sorterColorSensor = ColorSensor(Port.S3)
 colorToBeFiltered = Color.BLUE
 
-liftcolorSensor = ColorSensor(Port.S2)
+liftsonicSensor = UltrasonicSensor(Port.S2)
 liftMotor = Motor(Port.A)
 liftTouchSensor = TouchSensor(Port.S1)
 
@@ -44,31 +53,64 @@ client.connect('ev3dev')
 
 ev3.speaker.say("Sorter connected")  
 
-# Initialize Motors 
-
-liftMotor.run_time(150,1000)
-#resetting Position
-while liftTouchSensor.pressed() == False:
-    liftMotor.run(-50)
+# Create and setup timer support class 
+class LiftTimer:
+    def __init__(self,trigger_time):
+        self.trigger_time = trigger_time
+        self.message_pending = False
     
-liftMotor.reset_angle(0)
+    def check_Sonicsensor(self):
+        # If sensor is pressed and we're not already waiting
+        if not (liftsonicSensor.distance() == 36) and not self.message_pending:
+            self.trigger_time = ticks_ms()
+            self.message_pending = True
+            print("Activity detected - waiting")
+        
+        # If we have a pending message and trigger time has passed
+        if self.message_pending and ticks_diff(ticks_ms(), self.trigger_time) >= self.trigger_time:
+            
+            mbox.send('Lift transporting')
+            sendLift()
+            
+            returnLift()
+            mbox.send('Lift ready')
+            
+            
+            self.message_pending = False
+            print("Message sent via mailbox")
+            
+            
+class SorterTimer:
+    def __init__(self,trigger_time):
+        self.trigger_time = trigger_time
+        self.message_pending = False
+    
+    def check_sorterColorSensor(self):
+        # If sensor is pressed and we're not already waiting
+        if sorterColorSensor.color() == colorToBeFiltered and not self.message_pending:
+            self.trigger_time = ticks_ms()
+            self.message_pending = True
+            print("Activity detected - waiting 1 second")
+        
+        # If we have a pending message and 1 second has passed
+        if self.message_pending and ticks_diff(ticks_ms(), self.trigger_time) >= self.trigger_time:
+            
+            
+            
+            self.message_pending = False
+            print("Message sent via mailbox")
+            
 
+# Creating Timer Objects 
+liftTimer = LiftTimer(trigger_time=1000)
+sorterTimer = SorterTimer(trigger_time=1500)
+
+# Initialize Motors 
+initialiseMotors()
 mbox.send("Initialisation complete")
 
 
 while True:
-    
-    # Needs refinement to accomodate for multiple blocks 
-    if(sorterColorSensor.color() == colorToBeFiltered):
-        sortOut(sorterMotor)
-        wait(1500)
-        returnPosition(sorterMotor)     
-     
-        
-    if(liftcolorSensor.color() != Color.BLACK):
-        wait(500)
-        mbox.send("Lift transporting")
-        sendLift()
-        waitForReturn()
-        mbox.send("Lift ready")
-        
+    sorterTimer.check_sorterColorSensor()
+    liftTimer.check_Sonicsensor()
+    wait(10)
