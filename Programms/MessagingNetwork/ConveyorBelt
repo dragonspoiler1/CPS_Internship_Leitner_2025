@@ -34,8 +34,10 @@ while True:
         motorA.hold()
         motorB.hold()
         mbox.send("Motors stopped")    
-            
-box.wait()    
+    
+    # Motors run until a new command is given, here we loop over every time
+    # we have new mail and should either stop or start the conveyor                
+    mbox.wait()    
 
     
 
