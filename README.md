@@ -14,6 +14,7 @@ Further Work on the Project of my Predecessor as seen at https://github.com/Flo1
 
 
 
+
 # Milestones and Completion
 1.) Find a Way to let Bricks communicate with each other - Done (4.8)
 2.) Setup all the Programms 
@@ -45,14 +46,16 @@ Further Work on the Project of my Predecessor as seen at https://github.com/Flo1
   Additonally we have methods like wait() that halts until the Mailbox is updated or new_wait() that does so until the Data gets updated to something that is not the current Value
   And then proceed
 
+  Edit: To maintain a smoother cycle instead of making the process wait, I created a timer class that runs a process a short time period later. This was primarily done to ensure the Sorter and Elevator both function with less interruption.
+
   With all that in Mind we can create complex Programs that can react to real life changes without even needing a wired connection.
   Further Documentation of the code will be commented in the Files 
 
   # Adjustmendts that were made:
-  Changed the Color Sensor infront of the ELevator to a Ultrasonic Sensor that can Measure the Distance. This was made due to errors that can occure with color detextion and lightning.
+  Changed the Color Sensor infront of the Elevator to a Ultrasonic Sensor that can Measure the Distance. This was made due to errors that can occure with color detection and lighting.
   The Ultrasonic Sensor should give better results.
 
-  Also Added a Touch Sensor at the Bottom of the Elevator to initialize the Motors and make sure to give a clean reset every time the Programm is started. Sets a Baseline (Note: could also function on a code        Basis if the Sensor Slot is needed via the run_until_stalled() method    )
+  Also Added a Touch Sensor at the Bottom of the Elevator to initialize the Motors and make sure to give a clean reset every time the Programm is started. Sets a Baseline (Note: could also function on a code Basis if the Sensor Slot is needed via the run_until_stalled() method)
 
 
   
