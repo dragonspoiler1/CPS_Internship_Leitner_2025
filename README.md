@@ -12,6 +12,8 @@ Further Work on the Project of my Predecessor as seen at https://github.com/Flo1
 
 # Ressources used:
 
+4x Lego Mindstorms EV3
+
 
 
 
@@ -25,15 +27,16 @@ Further Work on the Project of my Predecessor as seen at https://github.com/Flo1
 
 
 # Findings and Documentation
-1.) The EV3 Bricks that are used do not have the ability to connect to WiFi even though there seems to be an option in its settings. With Reasearch of 
-    its possibilites (Source: Getting started with LEGO® MINDSTORMS Education EV3 MicroPython Document will be listed) I Was able to come across the integrated "Messaging" function
+1.) The EV3 Bricks that are used do not have the ability to connect to WiFi even though there seems to be an option in its settings. With some Reasearch I was able to come across the integrated "Messaging" function
     Messaging is a form of communication between Bricks using Bluetooth. 
+    (Source: Getting started with LEGO® MINDSTORMS Education EV3 MicroPython Document will be listed) 
+   
 
   The setup is pretty simple in Theory, firstly you have to follow these steps:
   <img width="955" height="445" alt="image" src="https://github.com/user-attachments/assets/349cba85-c582-4f18-98b8-d5cf0c24426c" />
   <img width="941" height="579" alt="image" src="https://github.com/user-attachments/assets/98ef4a0c-2790-40c1-a86e-f83280a4f4e0" />
 
-  Doing this with all your EV3's should do the Trick, note: The actuall connection part will happen in the Python files for now you just have to Pair them once.
+  Doing this with all your EV3's should do the Trick, note: The actuall connection part will happen in the Python files, for now you just have to Pair them once.
 
   Now to the Code, I am using Visual Studio Code with the EV3 extension and pybrick libaries, most of the syntax is well documented and explained in the Manual.
   <img width="913" height="600" alt="image" src="https://github.com/user-attachments/assets/95454938-04de-4f8f-afb4-3c3605e57635" />

@@ -2,8 +2,13 @@
 from pybricks.hubs import EV3Brick
 from pybricks.messaging import *
 from pybricks.tools import wait, StopWatch, DataLog
+from pybricks.ev3devices import (Motor, ColorSensor, TouchSensor, UltrasonicSensor)
+from pybricks.parameters import Port
 
 
+def middleButtonIsPressed(ev3):
+    # Returns True if the center button of the EV3 brick is currently pressed.
+    return ev3.buttons.pressed() == ['CENTER'] 
 
 #This will be the Most important Actor. This Handler gathers Information and sends
 #commands to other Bricks/Clients that react on certain messages. 
@@ -14,13 +19,12 @@ from pybricks.tools import wait, StopWatch, DataLog
 networkBrick = EV3Brick()
 server = BluetoothMailboxServer()
 CONNECTIONS = 3
+colorConfigSensor = ColorSensor(Port.S3)
 
 # Mailboxes
-
 conveyorManager = TextMailbox('ConveyorManager',server)
 sorterManager = TextMailbox('SorterManager',server)
 craneManager = TextMailbox('CraneManager',server)
-
 
 # Initializing Connections
 networkBrick.speaker.beep()
@@ -34,8 +38,6 @@ networkBrick.screen.print('All 3 connected!')
 # read Sensor inputs
 
 # Wait for Initialisation
-
-
 networkBrick.screen.print('Initialisation complete')
     
 conveyorManager.send("Start Conveyor")
@@ -49,9 +51,18 @@ while True:
         conveyorManager.send("Start Conveyor")
         
         
-        # Operate Crane
+        # Operate Crane (TO Do - create Timer instead of wait())
         wait(300)
         craneManager.send("Brick arrived")
+        
+    if(middleButtonIsPressed(networkBrick)):
+        sorterManager.send('Changing Color')
+        networkBrick.speaker.beep()
+        wait(100)
+        sorterManager.send(colorConfigSensor.color())
+
+        
+        
     wait(100)
         
         

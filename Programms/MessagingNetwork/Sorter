@@ -55,19 +55,22 @@ ev3.speaker.say("Sorter connected")
 
 # Create and setup timer support class 
 class LiftTimer:
-    def __init__(self,trigger_time):
-        self.trigger_time = trigger_time
+    def __init__(self,timer_ms):
+        self.trigger_time = None
         self.message_pending = False
+        self.timer_ms = timer_ms
     
     def check_Sonicsensor(self):
         # If sensor is pressed and we're not already waiting
-        if not (liftsonicSensor.distance() == 36) and not self.message_pending:
+        
+        if (liftsonicSensor.distance() > 46+3 or liftsonicSensor.distance() < 46-3) and not self.message_pending:
+            print(liftsonicSensor.distance())
             self.trigger_time = ticks_ms()
             self.message_pending = True
             print("Activity detected - waiting")
         
         # If we have a pending message and trigger time has passed
-        if self.message_pending and ticks_diff(ticks_ms(), self.trigger_time) >= self.trigger_time:
+        if self.message_pending and ticks_diff(ticks_ms(), self.trigger_time) >= self.timer_ms:
             
             mbox.send('Lift transporting')
             sendLift()
@@ -81,29 +84,31 @@ class LiftTimer:
             
             
 class SorterTimer:
-    def __init__(self,trigger_time):
-        self.trigger_time = trigger_time
+    def __init__(self,timer_ms):
+        self.trigger_time = None
         self.message_pending = False
+        self.timer_ms = timer_ms
     
     def check_sorterColorSensor(self):
         # If sensor is pressed and we're not already waiting
         if sorterColorSensor.color() == colorToBeFiltered and not self.message_pending:
             self.trigger_time = ticks_ms()
             self.message_pending = True
-            print("Activity detected - waiting 1 second")
+            ev3.screen.print("Activity detected - waiting 1 second")
         
         # If we have a pending message and 1 second has passed
-        if self.message_pending and ticks_diff(ticks_ms(), self.trigger_time) >= self.trigger_time:
+        if self.message_pending and ticks_diff(ticks_ms(), self.trigger_time) >= self.timer_ms:
             
-            
+            sortOut(sorterMotor)
+            returnPosition(sorterMotor)
             
             self.message_pending = False
             print("Message sent via mailbox")
             
 
 # Creating Timer Objects 
-liftTimer = LiftTimer(trigger_time=1000)
-sorterTimer = SorterTimer(trigger_time=1500)
+liftTimer = LiftTimer(timer_ms=1000)
+sorterTimer = SorterTimer(timer_ms=1500)
 
 # Initialize Motors 
 initialiseMotors()
@@ -113,4 +118,7 @@ mbox.send("Initialisation complete")
 while True:
     sorterTimer.check_sorterColorSensor()
     liftTimer.check_Sonicsensor()
+    if not (mbox.read() == colorToBeFiltered):
+        colorToBeFiltered = mbox.read()
+        
     wait(10)
