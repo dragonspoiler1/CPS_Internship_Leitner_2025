@@ -59,6 +59,7 @@ Build of Florian
   (Link to Dowload: <https://pixycam.com/downloadspixy2/>)
 
   With the Help of these three articles/Guides it wasnt too difficult to build a reliable detection of Bricks passing through: 
+
   [General Infos about PixyCam]( <https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:pixymon_index>)
   
   [Getting into Object Detection](  <https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:teach_pixy_an_object_2> )
