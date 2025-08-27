@@ -27,18 +27,18 @@ Build of Florian
 # Findings and Documentation
 1.) The EV3 Bricks that are used do not have the ability to connect to WiFi even though there seems to be an option in its settings. With some Reasearch I was able to come across the integrated "Messaging" function
     Messaging is a form of communication between Bricks using Bluetooth. 
-    (Source: Getting started with LEGO® MINDSTORMS Education EV3 MicroPython Document will be listed) 
-   
+    Sources: [Getting started with LEGO® MINDSTORMS Education EV3 MicroPython](https://pybricks.com/ev3-micropython/)
 
   The setup is pretty simple in Theory, firstly you have to follow these steps:
-  <img width="955" height="445" alt="image" src="https://github.com/user-attachments/assets/349cba85-c582-4f18-98b8-d5cf0c24426c" />
-  
-  <img width="941" height="579" alt="image" src="https://github.com/user-attachments/assets/98ef4a0c-2790-40c1-a86e-f83280a4f4e0" />
+  <img width="951" height="746" alt="EV3Connection" src="https://github.com/user-attachments/assets/4b80fb22-af22-43fc-83c5-2241c21c08ee" />
 
   Doing this with all your EV3's should do the Trick, note: The actuall connection part will happen in the Python files, for now you just have to Pair them once.
 
   Now to the Code, I am using Visual Studio Code with the EV3 extension and pybrick libaries, most of the syntax is well documented and explained in the Manual.
-  <img width="913" height="600" alt="image" src="https://github.com/user-attachments/assets/95454938-04de-4f8f-afb4-3c3605e57635" />
+
+
+  How does Communication work?
+  <img width="880" height="644" alt="image" src="https://github.com/user-attachments/assets/a1387479-3b98-4673-be6e-377950f53655" />
 
   As seen here, we have two Bricks, one acting as a Server, and the other as a Client. Throughout this Repository we will come across the term Box or Mailbox often
   these are quite suiting names for its purpose. There a different kinds of Mailboxes the difference in them being what kind of Data they allow to transmit. While the 
