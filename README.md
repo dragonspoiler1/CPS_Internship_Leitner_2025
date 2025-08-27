@@ -13,6 +13,8 @@ Further Work on the Project of my Predecessor as seen at https://github.com/Flo1
 # Ressources used:
 
 4x Lego Mindstorms EV3
+1x PixyCamV2
+
 
 
 
@@ -48,18 +50,25 @@ Further Work on the Project of my Predecessor as seen at https://github.com/Flo1
   the same Name, they can read and send messages to one another using the read() and send() methods!
 
   Additonally we have methods like wait() that halts until the Mailbox is updated or new_wait() that does so until the Data gets updated to something that is not the current Value
-  And then proceed
+  And then proceed, note that this will make the process sleep till the condition is met
 
-  Edit: To maintain a smoother cycle instead of making the process wait, I created a timer class that runs a process a short time period later. This was primarily done to ensure the Sorter and Elevator both function with less interruption.
+  Edit: To maintain a smoother cycle instead of making the process wait, I created a timer class that runs a process a short time period later. This was primarily done to ensure the Sorter and Elevator both '
+  function with less interruption.
 
   With all that in Mind we can create complex Programs that can react to real life changes without even needing a wired connection.
   Further Documentation of the code will be commented in the Files 
 
+
+  <img width="791" height="535" alt="image" src="https://github.com/user-attachments/assets/31aab063-9542-4dbb-8baa-e136d5fdf624" />
+
+
+
   # Adjustmendts that were made:
   Changed the Color Sensor infront of the Elevator to a Ultrasonic Sensor that can Measure the Distance. This was made due to errors that can occure with color detection and lighting.
-  The Ultrasonic Sensor should give better results.
+  The Ultrasonic Sensor should give better results. After still getting misleading data switched to the PixyCamV2
 
-  Also Added a Touch Sensor at the Bottom of the Elevator to initialize the Motors and make sure to give a clean reset every time the Programm is started. Sets a Baseline (Note: could also function on a code Basis if the Sensor Slot is needed via the run_until_stalled() method)
+  Also Added a Touch Sensor at the Bottom of the Elevator to initialize the Motors and make sure to give a clean reset every time the Programm is started. Sets a Baseline (Note: could also function on a code 
+  Basis if the Sensor Slot is needed via the run_until_stalled() method)
 
 
   
