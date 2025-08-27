@@ -51,9 +51,22 @@ Build of Florian
   Edit: To maintain a smoother cycle instead of making the process wait, I created a timer class that runs a process a short time period later. This was primarily done to ensure the Sorter and Elevator both '
   function with less interruption.
 
+  After testing around with both a Colorsensor and an Ultrasonicsensor to determine Blocks infront of the Elevator, with both being too inaccurate and inconsistent towards detecting blocks on the Conveyor, it has
+  been Replaced by a Camera.
+
+  The one used here is the PixyCam V2 Lego Edition, a Camera with integrated Processors, a usable 640x400 Pixel Resolution and the ability for internal object detection. It can either be Plugged in via a Micro 
+  USB to the Computer or ESP32 or with a EV3 Sensor Cable to said Unit. The setup isnt that difficult though you need the PixyMon Software for some configurations 
+  (Link to Dowload: <https://pixycam.com/downloadspixy2/>)
+
+  With the Help of these three articles/Guides it wasnt too difficult to build a reliable detection of Bricks passing through: 
+  (General Infos about PixyCam: <https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:pixymon_index>
+  Getting into Object Detection:  <https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:teach_pixy_an_object_2> 
+  Accessing in Micropython: [text](https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:porting_guide))
+
   With all that in Mind we can create complex Programs that can react to real life changes without even needing a wired connection.
   Further Documentation of the code will be commented in the Files 
 
+  Here is General Overview of the Programm:
 
   <img width="791" height="535" alt="image" src="https://github.com/user-attachments/assets/31aab063-9542-4dbb-8baa-e136d5fdf624" />
 
