@@ -34,6 +34,7 @@ Further Work on the Project of my Predecessor as seen at https://github.com/Flo1
 
   The setup is pretty simple in Theory, firstly you have to follow these steps:
   <img width="955" height="445" alt="image" src="https://github.com/user-attachments/assets/349cba85-c582-4f18-98b8-d5cf0c24426c" />
+  
   <img width="941" height="579" alt="image" src="https://github.com/user-attachments/assets/98ef4a0c-2790-40c1-a86e-f83280a4f4e0" />
 
   Doing this with all your EV3's should do the Trick, note: The actuall connection part will happen in the Python files, for now you just have to Pair them once.
