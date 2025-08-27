@@ -64,7 +64,7 @@ Build of Florian
   
   [Getting into Object Detection](  <https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:teach_pixy_an_object_2> )
   
-  [Accessing PixyCam in Micropython](https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:porting_guide))
+  [Accessing PixyCam in Micropython](https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:porting_guide)
 
   With all that in Mind we can create complex Programs that can react to real life changes without even needing a wired connection.
   Further Documentation of the code will be commented in the Files 
