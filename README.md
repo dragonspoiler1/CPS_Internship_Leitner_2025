@@ -4,9 +4,8 @@
 Further Work on the Project of my Predecessor as seen at https://github.com/Flo180/ev3_praktikum_projekt_griesser/tree/main
 
 - Revamp the system that has been built and especiially improve on the communication between the EV3's.
+- Track or keep count of the blocks in the system
 - Add a Possibility to change configurations of the Machine during its runtime
-- Add a Transporter that can bring the blocks that are sorted out to another Location
-- Make a 3D Model/Render of the Build and Upload it here
 - Learn and improve existing foundations
 - Have fun
 
@@ -14,18 +13,15 @@ Further Work on the Project of my Predecessor as seen at https://github.com/Flo1
 
 4x Lego Mindstorms EV3
 1x PixyCamV2
-
-
-
+Build of Florian
 
 
 # Milestones and Completion
-1.) Find a Way to let Bricks communicate with each other - Done (4.8)
+1.) Find a Way to let Bricks communicate with each other
 2.) Setup all the Programms 
-3.) Adjust Model
-
-
-
+3.) Adjust Model as needed
+4.) Get it up and running
+5.) Add/Change the build to ensure smooth running
 
 
 # Findings and Documentation
