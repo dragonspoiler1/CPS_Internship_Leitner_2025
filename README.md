@@ -7,9 +7,6 @@ Further Work on the Project of my Predecessor as seen at <https://github.com/Flo
 - Revamp the system that has been built and especiially improve on the communication between the EV3's.
 - Track or keep count of the blocks in the system
 - Add a Possibility to change configurations of the Machine during its runtime
- -> Possible through the ESP32
-- Add a Transporter that can bring the blocks that are sorted out to another Location
-- Make a 3D Model/Render of the Build and Upload it here
 - Learn and improve existing foundations
 - Have fun
 
@@ -18,15 +15,10 @@ Further Work on the Project of my Predecessor as seen at <https://github.com/Flo
 4x Lego Mindstorms EV3
 1x PixyCam V2 Lego Edition
  -> PixyMon Software
-1x PixyCamV2
 Build of Florian
 
 
 # Milestones and Completion
-
-1.) Find a Way to let Bricks communicate with each other - Done (4.8)
-2.) Setup all the Programms
-3.) Adjust Model
 1.) Find a Way to let Bricks communicate with each other
 2.) Setup all the Programms 
 3.) Adjust Model as needed
@@ -36,10 +28,8 @@ Build of Florian
 
 # Findings and Documentation
 
-1.) The EV3 Bricks that are used do not have the ability to connect to WiFi even though there seems to be an option in its settings. With some Reasearch I was able to come across the integrated "Messaging" function
-    Messaging is a form of communication between Bricks using Bluetooth.
-    (Source: Getting started with LEGO® MINDSTORMS Education EV3 MicroPython Document will be listed)
-    Messaging is a form of communication between Bricks using Bluetooth. 
+1.) The EV3 Bricks that are used do not have the ability to connect to WiFi even though there seems to be an option in its settings. With some Reasearch I was able to come across the integrated "Messaging" 
+function Messaging is a form of communication between Bricks using Bluetooth. 
     Sources: [Getting started with LEGO® MINDSTORMS Education EV3 MicroPython](https://pybricks.com/ev3-micropython/)
 
   The setup is pretty simple in Theory, firstly you have to follow these steps:
@@ -48,7 +38,6 @@ Build of Florian
   Doing this with all your EV3's should do the Trick, note: The actuall connection part will happen in the Python files, for now you just have to Pair them once.
 
   Now to the Code, I am using Visual Studio Code with the EV3 extension and pybrick libaries, most of the syntax is well documented and explained in the Manual.
-
 
   How does Communication work?
   <img width="880" height="644" alt="image" src="https://github.com/user-attachments/assets/a1387479-3b98-4673-be6e-377950f53655" />
@@ -80,8 +69,6 @@ Build of Florian
   [Accessing PixyCam in Micropython](https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:porting_guide)
 
   With all that in Mind we can create complex Programs that can react to real life changes without even needing a wired connection.
-  Further Documentation of the code will be commented in the Files
-  Further Documentation of the code will be commented in the Files 
 
   Here is General Overview of the Programm:
 
@@ -89,9 +76,11 @@ Build of Florian
 
 
 
-  After testing around with both a Colorsensor and an Ultrasonicsensor to determine Blocks infront of the Elevator, with both being too inaccurate and inconsistent towards detecting blocks on the Conveyor, it has been Replaced by a Camera.
+  After testing around with both a Colorsensor and an Ultrasonicsensor to determine Blocks infront of the Elevator, with both being too inaccurate and inconsistent towards detecting blocks on the Conveyor, it 
+  has been Replaced by a Camera.
 
-  The one used here is the PixyCam V2 Lego Edition, a Camera with integrated Processors, a usable 640x400 Pixel Resolution and the ability for internal object detection. It can either be Plugged in via a Micro USB to the Computer or ESP32 or with a EV3 Sensor Cable to said Unit. The setup isnt that difficult though you need the PixyMon Software for some configurations (Link to Dowload: <https://pixycam.com/downloads-pixy2/>)
+  The one used here is the PixyCam V2 Lego Edition, a Camera with integrated Processors, a usable 640x400 Pixel Resolution and the ability for internal object detection. It can either be Plugged in via a Micro 
+  USB to the Computer or ESP32 or with a EV3 Sensor Cable to said Unit. The setup isnt that difficult though you need the PixyMon Software for some configurations (Link to Dowload: <https://pixycam.com/downloads-pixy2/>)
 
   With the Help of these two articles/Guides it wasnt too difficult to build a reliable detection of Bricks passing through: (General Infos about PixyCam: <https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:pixymon_index>
             Getting into Object Detection: <https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:teach_pixy_an_object_2>)
@@ -104,7 +93,7 @@ Build of Florian
   The Ultrasonic Sensor should give better results. After still getting misleading data switched to the PixyCamV2
 
   Also Added a Touch Sensor at the Bottom of the Elevator to initialize the Motors and make sure to give a clean reset every time the Programm is started. Sets a Baseline (Note: could also function on a code 
-  Basis if the Sensor Slot is needed via the run_until_stalled() method)
+  Basis if the Sensor Slot is needed via the run_until_stalled() method which has been used instead)
 
 # Author/Student
 
