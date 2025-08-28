@@ -6,7 +6,7 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.messaging import BluetoothMailboxClient, TextMailbox
 from utime import ticks_ms, ticks_diff
-
+from pixycamev3.pixy2 import Pixy2
 
 #The Sorter uses multiple Sensors along the ConveyorBelt, it reads and sends its signals to the NetworkHandler
 #Further it includes the Elevator/Transporter and sends signals of its current state
@@ -28,12 +28,10 @@ def returnPosition(sorterMotor):
 def initialiseMotors():
     liftMotor.run_time(150,1000)
 
-    while liftTouchSensor.pressed() == False:
-        liftMotor.run(-50)
+    liftMotor.run_until_stalled(-50, then=Stop.COAST, duty_limit=50)
     
     liftMotor.reset_angle(0)
 
-    
 
 # initializing Variables 
 ev3 = EV3Brick()
@@ -42,9 +40,8 @@ sorterMotor = Motor(Port.B)
 sorterColorSensor = ColorSensor(Port.S3)
 colorToBeFiltered = Color.BLUE
 
-liftsonicSensor = UltrasonicSensor(Port.S2)
+liftPixycam2 = Pixy2(port=4, i2c_address=0x54)
 liftMotor = Motor(Port.A)
-liftTouchSensor = TouchSensor(Port.S1)
 
 #Connnecting to Server
 client = BluetoothMailboxClient()
@@ -55,19 +52,25 @@ ev3.speaker.say("Sorter connected")
 
 # Create and setup timer support class 
 class LiftTimer:
-    def __init__(self,timer_ms):
+    def __init__(self,timer_ms,pixy2):
         self.trigger_time = None
         self.message_pending = False
         self.timer_ms = timer_ms
+        self.pixy2 = pixy2
     
-    def check_Sonicsensor(self):
-        # If sensor is pressed and we're not already waiting
+    def check_camera(self):
         
-        if (liftsonicSensor.distance() > 46+3 or liftsonicSensor.distance() < 46-3) and not self.message_pending:
-            print(liftsonicSensor.distance())
+        self.pixy2.get_blocks(10,1)
+        nr_blocks, blocks = self.pixy2.get_blocks(1, 1)
+        
+        # Extract data of first (and only) block 
+        if (nr_blocks >= 1) and not self.message_pending:
+            
+            # Options to save informations here
+            ev3.speaker.beep()
+            
             self.trigger_time = ticks_ms()
             self.message_pending = True
-            print("Activity detected - waiting")
         
         # If we have a pending message and trigger time has passed
         if self.message_pending and ticks_diff(ticks_ms(), self.trigger_time) >= self.timer_ms:
@@ -80,9 +83,7 @@ class LiftTimer:
             
             
             self.message_pending = False
-            print("Message sent via mailbox")
-            
-            
+            print("Message sent via mailbox")          
 class SorterTimer:
     def __init__(self,timer_ms):
         self.trigger_time = None
@@ -105,19 +106,22 @@ class SorterTimer:
             self.message_pending = False
             print("Message sent via mailbox")
             
-
 # Creating Timer Objects 
-liftTimer = LiftTimer(timer_ms=1000)
+liftTimer = LiftTimer(timer_ms=1000,pixy2=liftPixycam2)
 sorterTimer = SorterTimer(timer_ms=1500)
+
+
 
 # Initialize Motors 
 initialiseMotors()
+ev3.screen.print("Initialisation complete")
 mbox.send("Initialisation complete")
 
 
 while True:
     sorterTimer.check_sorterColorSensor()
-    liftTimer.check_Sonicsensor()
+    liftTimer.check_camera()
+
     if not (mbox.read() == colorToBeFiltered):
         colorToBeFiltered = mbox.read()
         

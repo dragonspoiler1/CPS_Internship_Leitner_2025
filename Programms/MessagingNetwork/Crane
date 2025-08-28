@@ -130,6 +130,7 @@ mbox.send("Initialisation complete")
 while True:
     mbox.wait() 
     if(mbox.read() == "Brick arrived"):
+        wait(300)
     
         smallConveyorMotor.run_angle(160,-500)
         

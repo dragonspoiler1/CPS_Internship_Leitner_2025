@@ -3,23 +3,26 @@ from pybricks.hubs import EV3Brick
 from pybricks.messaging import *
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.ev3devices import (Motor, ColorSensor, TouchSensor, UltrasonicSensor)
-from pybricks.parameters import Port
+from pybricks.parameters import Port, Color, Button
 
 
 def middleButtonIsPressed(ev3):
     # Returns True if the center button of the EV3 brick is currently pressed.
-    return ev3.buttons.pressed() == ['CENTER'] 
+    return Button.CENTER in ev3.buttons.pressed()
 
 #This will be the Most important Actor. This Handler gathers Information and sends
 #commands to other Bricks/Clients that react on certain messages. 
 #Mailboxes will be used to send and receive individual Data/Informations
 
 #Setup of the Server
-
 networkBrick = EV3Brick()
 server = BluetoothMailboxServer()
 CONNECTIONS = 3
-colorConfigSensor = ColorSensor(Port.S3)
+
+#Color Handling
+COLORS = [Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW]
+colorindex = 0
+
 
 # Mailboxes
 conveyorManager = TextMailbox('ConveyorManager',server)
@@ -30,7 +33,7 @@ craneManager = TextMailbox('CraneManager',server)
 networkBrick.speaker.beep()
 networkBrick.screen.print('waiting for connections...')
 
-server.wait_for_connection(CONNECTIONS)
+#server.wait_for_connection(CONNECTIONS)
 networkBrick.screen.print('All 3 connected!')
 
 
@@ -52,17 +55,25 @@ while True:
         
         
         # Operate Crane (TO Do - create Timer instead of wait())
-        wait(300)
         craneManager.send("Brick arrived")
         
+        
+    # Can be optimized to not read multiple inputs and or to select the color directly with the different buttons
+    # (Buttons on a brick or remote: LEFT_DOWN,DOWN,RIGHT_DOWN,LEFT,CENTER,RIGHT,LEFT_UP,UP,BEACON,RIGHT_UP)
+    
     if(middleButtonIsPressed(networkBrick)):
+        conveyorManager.send("Stop Conveyor")
         sorterManager.send('Changing Color')
-        networkBrick.speaker.beep()
-        wait(100)
-        sorterManager.send(colorConfigSensor.color())
+        #Changes the color to the next one in line
+        
+        if(colorindex >=3):
+            colorindex = 0
+        else:
+            colorindex=colorindex+1
+        
+        sorterManager.send(COLORS[colorindex])
+        networkBrick.screen.print(COLORS[colorindex])
 
-        
-        
     wait(100)
         
         
