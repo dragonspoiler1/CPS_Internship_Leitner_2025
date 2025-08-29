@@ -21,7 +21,7 @@ client.connect('ev3dev')
 ev3.speaker.say("Conveyor connected")  
 
 
-mbox.wait()
+ev3.screen.print("Message Received")
 
 while True:
         

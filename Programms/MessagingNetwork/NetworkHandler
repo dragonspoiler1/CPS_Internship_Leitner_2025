@@ -33,7 +33,7 @@ craneManager = TextMailbox('CraneManager',server)
 networkBrick.speaker.beep()
 networkBrick.screen.print('waiting for connections...')
 
-#server.wait_for_connection(CONNECTIONS)
+server.wait_for_connection(CONNECTIONS)
 networkBrick.screen.print('All 3 connected!')
 
 
@@ -42,6 +42,7 @@ networkBrick.screen.print('All 3 connected!')
 
 # Wait for Initialisation
 networkBrick.screen.print('Initialisation complete')
+wait(1500)
     
 conveyorManager.send("Start Conveyor")
 networkBrick.screen.print('Start Conveyor')
@@ -73,6 +74,8 @@ while True:
         
         sorterManager.send(COLORS[colorindex])
         networkBrick.screen.print(COLORS[colorindex])
+        
+        conveyorManager.send("Start Conveyor")
 
     wait(100)
         
