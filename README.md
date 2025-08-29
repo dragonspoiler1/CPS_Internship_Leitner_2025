@@ -85,7 +85,7 @@ function Messaging is a form of communication between Bricks using Bluetooth.
   With the Help of these two articles/Guides it wasnt too difficult to build a reliable detection of Bricks passing through: (General Infos about PixyCam: <https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:pixymon_index>
             Getting into Object Detection: <https://docs.pixycam.com/wiki/doku.php?id=wiki:v2:teach_pixy_an_object_2>)
 
-  Sadly some Sensors are miscalibrated or give faulty results which leads to some design flaws
+  Sadly some Sensors are miscalibrated or give faulty results which leads to some flaws
 
 
 
